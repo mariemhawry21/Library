@@ -7,8 +7,9 @@ const jwt = require("jsonwebtoken");
 const Book = require("./models/Book");
 const Member = require("./models/Member");
 const Borrowing = require("./models/Borrowing");
+require("dotenv").config();
 
-const SECRET = "librarySecret";
+const SECRET = "librarySecretKey";
 
 const typeDefs = gql`
   type Book {
@@ -186,9 +187,7 @@ async function start() {
   await server.start();
   server.applyMiddleware({ app });
 
-  await mongoose.connect(
-    "mongodb+srv://mariem:mariem2002@cluster0.qgg7s.mongodb.net/library"
-  );
+  await mongoose.connect(process.env.MONGO_URI);
   console.log("MongoDB Connected");
 
   app.listen(4000, () =>
